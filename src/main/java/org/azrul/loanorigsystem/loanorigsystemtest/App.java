@@ -8,7 +8,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -27,21 +29,33 @@ public class App {
             String currentAddressId = null;
             String previousAddressId = null;
 
-            WebDriver browser = new FirefoxDriver();
+            
+//            System.setProperty("webdriver.chrome.driver", "C:\\ChromeDriver\\chromedriver.exe");
+//            WebDriver browser = new ChromeDriver();
+
+            FirefoxProfile prof = new FirefoxProfile();
+            //prof.setPreference("browser.tabs.remote.force-enable", true);
+            System.setProperty("webdriver.firefox.bin", "C:\\Program Files\\Mozilla Firefox 45\\firefox.exe");
+            WebDriver browser = new FirefoxDriver(prof);
+           
 
             browser.get("http://localhost:8084/LoanOrigSystem");
+            
+            Thread.sleep(3000);
 
-            WebElement usernameField = browser.findElement(By.name("username"));
+            WebElement usernameField = browser.findElement(By.id("username"));
             usernameField.sendKeys("user1");
 
-            WebElement passwordField = browser.findElement(By.name("password"));
+            WebElement passwordField = browser.findElement(By.id("password"));
             passwordField.sendKeys("password");
 
-            WebElement searchButton = browser.findElement(By.name("submit"));
-            searchButton.click();
+            WebElement loginButton = browser.findElement(By.id("login"));
+           loginButton.click();
+//            (new WebDriverBackedSelenium(browser, browser.getCurrentUrl())).click("Log in");
 
-            WebDriverWait wait = new WebDriverWait(browser, timeoutInSeconds);
-            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("span.v-menubar-menuitem-caption")));
+//            WebDriverWait wait = new WebDriverWait(browser, timeoutInSeconds);
+//            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("span.v-menubar-menuitem-caption")));
+            Thread.sleep(3000);
 
             //Create collateral address
             for (WebElement menu : browser.findElements(By.cssSelector("span.v-menubar-menuitem-caption"))) {
